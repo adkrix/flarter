@@ -7,8 +7,6 @@ Future<void> runScript(
   List<String> args = const [],
   String? dir,
 }) async {
-  print(Directory.current.path);
-
   var result = await Process.run(
     cmd,
     args,

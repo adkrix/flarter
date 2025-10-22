@@ -1,48 +1,68 @@
- #!/bin/bash
+#!/bin/bash
 
-dart scripts/wrk.dart $@
+NEW_OPTS=''
+FILLED=''
 
- exit 0
-
-# --------------------
-
-ACT="$1"
-
-
-case $ACT in
-  f)
-    clear 
-    dart format .
+while getopts "csSn:fCrRe hbdWALP" opt; do
+  case $opt in
+    c)
+      clear # console
+      FILLED=1
     ;;
-  l)
-    clear
-    flutter clean && flutter run -d linux
+
+    s)
+      python3 -m http.server -d ./_landing/ 8000 # server landing
+      exit 0
     ;;
-  c)
-    clear
-    flutter clean 
-    flutter run -d chrome
+
+    S)
+      python3 -m http.server -d ./_web/ 8001 # server web
+      exit 0
     ;;
-  L)
-    clear
-    flutter clean 
-    flutter build apk  --release  --target-platform android-arm64
-    # deploy
+
+    n)
+      dart scripts/rename.dart "$OPTARG"
+      exit 0
     ;;
-  A)
-    clear
-    flutter clean 
-    flutter build apk  --release  --target-platform android-arm64
-    scp build/app/outputs/flutter-apk/app-release.apk memd:/var/www/zor.su/testige/flarter.apk
-    # deploy
+
+    f)
+      dart format .
+      FILLED=1
     ;;
-  *)
-    echo "wrk f - format project"
-    echo "wrk l - run -d linux"
-    echo "wrk c - run -d crome"
-    echo "wrk A - build android app (apk)"
-    echo "wrk L - build linux app"
- ;;
-esac
+
+    C)
+      flutter clean
+      FILLED=1
+    ;;
+
+    r)
+      flutter clean && flutter run -d chrome
+      exit 0
+      ;;
+
+    R)
+      flutter clean && flutter run -d linux
+      exit 0
+    ;;
+    e)
+      echo -e "$(cat scripts/examples.txt)"
+      exit 0
+    ;;
+    h | b | d | W | A | L | P)
+      NEW_OPTS="$NEW_OPTS$opt"
+    ;;
+    *)
+      echo "Loosing option"
+      exit 0
+    ;;
+  esac
+done
+shift $((OPTIND-1))
 
 
+if [ "$NEW_OPTS" != "" ]; then
+  dart scripts/wrk.dart "-$NEW_OPTS"
+elif [ "$FILLED" != "1" ]; then
+  echo -e "Empty options. See help -h.\n"
+  dart scripts/wrk.dart -h
+fi

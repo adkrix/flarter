@@ -9,7 +9,6 @@ class PackInfo {
 
 Future<PackInfo> packInfo() async {
   final fName = '${Directory.current.path}/pubspec.yaml';
-  print(fName);
 
   if (await File(fName).exists()) {}
 

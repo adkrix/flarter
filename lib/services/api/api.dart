@@ -15,7 +15,7 @@ class ApiService {
         baseUrl,
         queryParameters: {'format': 'json', 'q': '$q'},
         options: Options(
-          headers: {'User-Agent': 'MyCustomApp/1.0.0 (iOS; iPhone)'},
+          headers: {'User-Agent': 'MyCustomApp/0.1.0 (iOS; iPhone)'},
         ),
       );
       debugPrint('${response.requestOptions.uri}');

@@ -1,7 +1,15 @@
-_deploy/
-#!_deploy/*.html
-#!_deploy/*.css
-#!_deploy/*.js
+# test landing serever root
+_landing/*
+!_landing/*.html
+!_landing/*.css
+!_landing/*.js
+
+# test web serever root
+_web/*
+
+
+
+#--------
 
 # Miscellaneous
 *.class
@@ -22,6 +30,10 @@ migrate_working_dir/
 *.ipr
 *.iws
 .idea/
+
+.env
+scripts/.env
+
 
 # The .vscode folder contains launch configuration and tasks you configure in
 # VS Code which you may wish to be included in version control, so this line
