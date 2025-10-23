@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flarter/services/services.dart';
+import 'package:flarter/models/models.dart';
 
 class StreetItem extends StatelessWidget {
   const StreetItem({super.key, required this.street});

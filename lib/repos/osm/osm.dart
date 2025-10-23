@@ -1,14 +1,15 @@
 import 'package:dio/dio.dart';
-import 'package:flarter/services/models/osm.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:flarter/models/models.dart';
+import 'package:flutter/material.dart';
 
-final dio = Dio();
-// response = await dio.get('/test', queryParameters: {'id': 12, 'name': 'dio'});
-// response = await dio.post('/test', data: {'id': 12, 'name': 'dio'});
+import '../abstract_data_repo.dart';
 
 const baseUrl = 'https://nominatim.openstreetmap.org/search';
 
-class ApiService {
+final dio = Dio();
+
+class OsmRepo implements AbstractDataRepo {
+  @override
   Future<List<Osm>> getItems([String? q = 'Columb street']) async {
     try {
       final response = await dio.get<List<dynamic>>(

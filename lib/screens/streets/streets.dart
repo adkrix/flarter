@@ -1,6 +1,7 @@
+import 'package:flarter/services/osm/osm_bloc.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter/material.dart';
 
-import 'package:flarter/services/services.dart';
 import 'ui/ui.dart';
 
 class StreetsScreen extends StatefulWidget {
@@ -12,33 +13,38 @@ class StreetsScreen extends StatefulWidget {
 }
 
 class _StreetsScreenState extends State<StreetsScreen> {
-  List<Osm> _list = [];
-  bool _loading = false;
 
   @override
-  void didChangeDependencies() {
-    _loading = true;
-    ApiService()
-        .getItems()
-        .then(
-          (list) => setState(() {
-            _list = list;
-          }),
-        )
-        .catchError(() => {_loading = false});
-    super.didChangeDependencies();
+  void initState() {
+    super.initState();
+    context.read<OsmBloc>().add(LoadOsmList());
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: Text(widget.title),
-      ),
-      body: ListView(
-        children: _list.map((street) => StreetItem(street: street)).toList(),
-      ),
-    );
+
+    return BlocBuilder<OsmBloc, OsmState>(
+        builder: (context, themeMode) {
+          return Scaffold(
+            appBar: AppBar(
+              backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+              title: Text(widget.title),
+            ),
+            body: BlocBuilder<OsmBloc, OsmState>(
+              builder: (context, state) {
+                if (state is InitialOsmState) {
+                  return Center(child: CircularProgressIndicator());
+                } else if (state is LoadedOsmState) {
+                  return ListView(
+                    children: state.osmList
+                        .map((street) => StreetItem(street: street))
+                        .toList(),
+                  );
+                }
+                return Container();
+              },
+            ),
+          );
+        });
   }
 }

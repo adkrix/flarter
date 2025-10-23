@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flarter/services/models/osm.dart';
+import 'package:flarter/models/models.dart';
 import 'ui/ui.dart';
 
 class StreetScreen extends StatefulWidget {

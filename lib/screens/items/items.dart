@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flarter/services/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'ui/ui.dart';
 
 class ItemsScreen extends StatefulWidget {
@@ -18,6 +20,18 @@ class _ItemsScreenState extends State<ItemsScreen> {
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         title: Text(widget.title),
         actions: [
+          BlocBuilder<ThemeCubit, ThemeMode>(
+            builder: (context, themeMode) {
+              return IconButton(
+                onPressed: () => context.read<ThemeCubit>().toggleTheme(),
+                icon: Icon(
+                  context.read<ThemeCubit>().state == ThemeMode.dark
+                      ? Icons.dark_mode
+                      : Icons.light_mode,
+                ),
+              );
+            },
+          ),
           IconButton(
             onPressed: () {
               Navigator.pushNamed(context, '/streets');
