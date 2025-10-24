@@ -14,19 +14,19 @@ class FlarterApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
-        BlocProvider<ThemeCubit>(create: (context) => ThemeCubit()),
+        BlocProvider<SettingsCubit>(create: (context) => SettingsCubit()),
         BlocProvider<OsmBloc>(
           create: (context) => OsmBloc(GetIt.I<AbstractDataRepo>()),
         ),
       ],
-      child: BlocBuilder<ThemeCubit, ThemeMode>(
-        builder: (context, themeMode) {
+      child: BlocBuilder<SettingsCubit, AppSettings>(
+        builder: (_, appSettings) {
           return MaterialApp(
             title: 'Flutter Demo',
             debugShowCheckedModeBanner: false,
             theme: lightTheme,
             darkTheme: darkTheme,
-            themeMode: themeMode,
+            themeMode: appSettings.theme,
             routes: routes,
             initialRoute: initialRoute,
           );

@@ -13,7 +13,6 @@ class StreetsScreen extends StatefulWidget {
 }
 
 class _StreetsScreenState extends State<StreetsScreen> {
-
   @override
   void initState() {
     super.initState();
@@ -22,29 +21,29 @@ class _StreetsScreenState extends State<StreetsScreen> {
 
   @override
   Widget build(BuildContext context) {
-
     return BlocBuilder<OsmBloc, OsmState>(
-        builder: (context, themeMode) {
-          return Scaffold(
-            appBar: AppBar(
-              backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-              title: Text(widget.title),
-            ),
-            body: BlocBuilder<OsmBloc, OsmState>(
-              builder: (context, state) {
-                if (state is InitialOsmState) {
-                  return Center(child: CircularProgressIndicator());
-                } else if (state is LoadedOsmState) {
-                  return ListView(
-                    children: state.osmList
-                        .map((street) => StreetItem(street: street))
-                        .toList(),
-                  );
-                }
-                return Container();
-              },
-            ),
-          );
-        });
+      builder: (context, themeMode) {
+        return Scaffold(
+          appBar: AppBar(
+            backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+            title: Text(widget.title),
+          ),
+          body: BlocBuilder<OsmBloc, OsmState>(
+            builder: (context, state) {
+              if (state is InitialOsmState) {
+                return Center(child: CircularProgressIndicator());
+              } else if (state is LoadedOsmState) {
+                return ListView(
+                  children: state.osmList
+                      .map((street) => StreetItem(street: street))
+                      .toList(),
+                );
+              }
+              return Container();
+            },
+          ),
+        );
+      },
+    );
   }
 }

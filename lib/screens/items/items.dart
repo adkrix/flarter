@@ -1,6 +1,4 @@
-import 'package:flutter/material.dart';
-import 'package:flarter/services/services.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter/material.dart' hide ButtonTheme;
 import 'ui/ui.dart';
 
 class ItemsScreen extends StatefulWidget {
@@ -20,31 +18,13 @@ class _ItemsScreenState extends State<ItemsScreen> {
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         title: Text(widget.title),
         actions: [
-          BlocBuilder<ThemeCubit, ThemeMode>(
-            builder: (context, themeMode) {
-              return IconButton(
-                onPressed: () => context.read<ThemeCubit>().toggleTheme(),
-                icon: Icon(
-                  context.read<ThemeCubit>().state == ThemeMode.dark
-                      ? Icons.dark_mode
-                      : Icons.light_mode,
-                ),
-              );
-            },
-          ),
-          IconButton(
-            onPressed: () {
-              Navigator.pushNamed(context, '/streets');
-            },
-            icon: Icon(Icons.location_city_outlined),
-          ),
-
-          IconButton(
-            onPressed: () {
-              Navigator.pushNamed(context, '/settings');
-            },
-            icon: Icon(Icons.settings),
-          ),
+          ButtonLang(),
+          SizedBox(width: 6),
+          ButtonTheme(),
+          SizedBox(width: 6),
+          ButtonGo(path: '/streets', icon: Icons.location_city_outlined),
+          SizedBox(width: 6),
+          ButtonGo(path: '/settings', icon: Icons.settings),
         ],
       ),
       body: ListView.builder(
